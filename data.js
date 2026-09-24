@@ -18,7 +18,8 @@ window.YOSOMI_DATA = {
     subject: ['person','family','child','old man','dog','cat','car','bus','train','boat','telephone','television','sign','window','stairs','chair','desk','clock','doll','flower','tree','bird','umbrella','uniform','photograph','map','machine','bicycle','bench','playground','poster','camera','record','radio','fridge','signal','pole','lantern','ticket','key','bag','hat','shoes','mirror','letter','book','newspaper','painting','flag','fish','lamp','fan','stove','bed','curtain','vase','box','bottle','plate','lunchbox','blackboard','mailbox','turnstile','streetlight','smokestack'],
     mood: ['old','new','blue','red','white','black','dark','bright','quiet','far','near','large','small','strange','lonely','empty','rainy','night','faded','forgotten'],
     music: ['ambient','field recording','lo-fi','cassette mix','slowcore','night music','rain music','harbor ambient','old radio','winter playlist','deep night BGM']
-  }
+  },
+  photo: ['看板','俯瞰','遠景','近景','記録','風景','街角','路地裏','建物','外観','内観','廃線','校区','航空写真','定点','記念写真','集合写真','古写真','現場写真','証明写真','夜景','水中','逆光','白黒','カラー','写真']
 };
 
 // Keep the pools broad, but keep each displayed unit short and searchable.

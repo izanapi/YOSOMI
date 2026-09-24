@@ -18,7 +18,8 @@
     if(mode === 'chaos'){ words = pick(D.chaos.concat(simple.subject,simple.place), Math.random()<.72?3:4); if(Math.random()<.55) words.push(rand(simple.time)); return; }
     const count = Math.random()<.44?2:Math.random()<.78?3:4;
     const T=mix(D.time.filter(x=>!banned.includes(x)),simple.time,'time'), P=mix(D.place.filter(x=>!banned.includes(x)),simple.place,'place'), S=mix(D.subject.filter(x=>!banned.includes(x)),simple.subject,'subject'), M=mix(D.mood.filter(x=>!banned.includes(x)),simple.mood,'mood');
-    const templates = mode==='music' ? [[T,P, D.music],[M,P,D.music],[P,M,D.music]] : mode==='place' ? [[M,P],[T,P],[M,S,P]] : [[T,P,'写真'],[M,P,'写真'],[T,P,S,'写真'],[M,S,P,'写真']];
+    const photoWord = Math.random() < .14 ? '写真' : rand(D.photo.filter(x=>x!=='写真'));
+    const templates = mode==='music' ? [[T,P, D.music],[M,P,D.music],[P,M,D.music]] : mode==='place' ? [[M,P],[T,P],[M,S,P]] : [[T,P,photoWord],[M,P,photoWord],[T,P,S,photoWord],[M,S,P,photoWord]];
     const t = rand(templates); words = t.map(x => Array.isArray(x)?rand(x):x).filter(Boolean);
     while(words.length > count && words.length > 2) words.splice(Math.floor(Math.random()*words.length),1);
     words=words.filter(w=>!banned.includes(w));
