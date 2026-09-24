@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#e9e9e4">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <title>YOSOMI — よそ見検索</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">YOSOMI <span>NO. 01</span></div>
+      <div class="top-actions">
+        <button id="languageToggle" class="quiet" aria-label="言語切替">JA</button>
+        <button id="favoritesToggle" class="quiet" aria-label="お気に入りを開く">♡ <span id="favoriteCount">0</span></button>
+        <button id="historyToggle" class="quiet" aria-label="履歴を開く">HISTORY</button>
+      </div>
+    </header>
+
+    <section class="stage" aria-label="検索語ジェネレーター">
+      <div class="stage-meta"><span id="modeReadout">PHOTO / IMAGE</span><span id="lockReadout">0 LOCKED</span></div>
+      <div id="query" class="query" aria-live="polite"></div>
+      <p class="hint">クリック：再抽選　／　長押し：固定　／　ダブルクリック：削除</p>
+      <div class="stage-actions">
+        <button id="newButton" class="new-button"><span>↻</span> NEW</button>
+        <button id="searchButton" class="search-button">SEARCH <span>↗</span></button>
+      </div>
+      <button id="saveButton" class="save-button">♡ SAVE THIS DETOUR</button>
+      <div class="destination" aria-label="検索先">
+        <span>DEST.</span>
+        <button data-dest="image" class="dest active">IMAGE</button>
+        <button data-dest="web" class="dest">WEB</button>
+        <button data-dest="youtube" class="dest">YOUTUBE</button>
+      </div>
+      <div class="add-word-wrap">
+        <button id="addWordToggle" class="add-word-toggle">＋ ADD WORD</button>
+        <div id="addWordPanel" class="add-word-panel" hidden>
+          <label for="customWord">自分の単語を追加</label>
+          <div class="add-row"><input id="customWord" maxlength="24" placeholder="例：給水塔" autocomplete="off"><button id="addWordButton">ADD</button></div>
+          <div class="word-kind"><button data-kind="place" class="kind active">PLACE</button><button data-kind="subject" class="kind">THING</button><button data-kind="mood" class="kind">MOOD</button><button data-kind="time" class="kind">TIME</button></div>
+          <small>登録語彙はこの端末だけで使われます。</small>
+          <div id="customWordList" class="custom-word-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="modes" aria-label="モード切替">
+      <button data-mode="photo" class="mode active"><b>PHOTO</b><small>写真の気配</small></button>
+      <button data-mode="music" class="mode"><b>MUSIC</b><small>音の居場所</small></button>
+      <button data-mode="place" class="mode"><b>PLACE</b><small>実在する風景</small></button>
+      <button data-mode="chaos" class="mode"><b>CHAOS</b><small>予測不能</small></button>
+    </nav>
+
+    <footer><span>目的地は、まだ決まっていない。</span><span>LOCAL / 1画面</span></footer>
+  </main>
+
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <div class="drawer-head"><span id="drawerTitle">FAVORITES</span><button id="drawerClose">×</button></div>
+    <div id="drawerList" class="drawer-list"></div>
+    <button id="clearLocal" class="clear">CLEAR THIS LIST</button>
+  </aside>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
