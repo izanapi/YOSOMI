@@ -46,9 +46,17 @@ window.YOSOMI_DATA = {
     window.YOSOMI_DATA[key] = short.slice(0, limit);
   }
   window.YOSOMI_DATA.music = [
-    'ambient','field recording','lo-fi','cassette mix','slowcore',
-    'ジャズ','ロック','ポップ','フォーク','ソウル','ファンク','レゲエ','テクノ','ハウス','ヒップホップ',
-    'クラシック','歌謡曲','民謡','合唱','器楽','独奏','二重奏','ライブ','スタジオ','放送',
-    'カセット','レコード','CD','テープ','モノラル'
+    'ambient music','field recording','lo-fi music','cassette mix','slowcore music',
+    'jazz music','rock music','pop music','folk music','soul music','funk music',
+    'reggae music','techno mix','house music','hip hop music','classical music',
+    '歌謡曲 歌唱','民謡 歌唱','合唱 演奏','器楽 演奏','piano solo','guitar duet',
+    'live concert','studio session music','radio session music','vinyl DJ mix',
+    'tape loop music','mono recording music','環境音 録音','効果音'
   ];
+  // Both languages use unambiguous music/audio queries; no mood phrases.
+  window.YOSOMI_DATA.english.music = window.YOSOMI_DATA.music.map(word => ({
+    '歌謡曲 歌唱':'Japanese kayokyoku music', '民謡 歌唱':'traditional folk song',
+    '合唱 演奏':'choir performance', '器楽 演奏':'instrumental music',
+    '環境音 録音':'environmental sound recording', '効果音':'sound effects'
+  })[word] || word);
 })();

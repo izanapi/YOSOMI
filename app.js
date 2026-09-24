@@ -13,6 +13,14 @@
   const banned = ['誰もいない','知らない家族','ホテルのロビー','海沿いの廃校','来週の火曜日','誰が撮ったかわからない'];
   const query = $('#query');
   function makeQuery(){
+    if(mode==='music'){
+      const vocabulary = lang==='en' ? D.english : simple;
+      // Keep the context light and always include one audio-specific phrase.
+      const context = rand([vocabulary.time, vocabulary.place]);
+      words = [rand(context), rand(lang==='en' ? D.english.music : D.music)];
+      locks = words.map((_,i)=>locks[i]||false);
+      return;
+    }
     if(lang==='en'){const E=D.english;const count=Math.random()<.5?2:Math.random()<.8?3:4;const pools=mode==='music'?[E.time,E.place,E.music]:mode==='place'?[E.mood,E.place,E.subject]:[E.time,E.place,E.subject,'photograph'];words=pick(pools.flat(),count);if(mode==='music'&&!words.includes('ambient'))words[words.length-1]=rand(E.music);locks=words.map((_,i)=>locks[i]||false);return}
     if(Math.random() < .018){ words = [rand(D.easter), '写真']; return; }
     if(mode === 'chaos'){ words = pick(D.chaos.concat(simple.subject,simple.place), Math.random()<.72?3:4); if(Math.random()<.55) words.push(rand(simple.time)); return; }
@@ -28,9 +36,9 @@
   }
   function render(animate=true){ query.classList.toggle('regenerate',animate); query.innerHTML=''; words.forEach((word,i)=>{ const b=document.createElement('button'); b.className='word'+(locks[i]?' locked':''); b.textContent=word; b.dataset.index=i; b.title='クリックで再抽選 / 長押しで固定 / ダブルクリックで削除'; b.addEventListener('click',()=>reroll(i)); b.addEventListener('dblclick',()=>removeWord(i)); let timer; b.addEventListener('pointerdown',()=>timer=setTimeout(()=>toggleLock(i),520)); ['pointerup','pointerleave','pointercancel'].forEach(e=>b.addEventListener(e,()=>clearTimeout(timer))); query.appendChild(b); }); $('#modeReadout').textContent=labels[mode]; $('#lockReadout').textContent=locks.filter(Boolean).length+' LOCKED'; setTimeout(()=>query.classList.remove('regenerate'),220); }
   function removeWord(i){if(words.length<=1){toast('ONE WORD MINIMUM');return}const removed=words[i];words.splice(i,1);locks.splice(i,1);render(false);saveHistory();toast('REMOVED: '+removed)}
-  function reroll(i){if(locks[i]){toast('LOCKED');return} const source=(mode==='chaos'?D.chaos.concat(simple.subject,simple.place,custom.subject,custom.place):mode==='music'?D.music.concat(simple.time,simple.place,custom.time,custom.place):i===0?D.time.concat(simple.time,D.mood,simple.mood,custom.time,custom.mood):i===1?D.place.concat(simple.place,custom.place):D.subject.concat(simple.subject,custom.subject)).filter(x=>!banned.includes(x)); let next=rand(source); while(words.includes(next)) next=rand(source); words[i]=next; render(); saveHistory();}
+  function reroll(i){if(locks[i]){toast('LOCKED');return} if(mode==='music'){const V=lang==='en'?D.english:simple;const isAudio=D.music.includes(words[i])||D.english.music.includes(words[i]);const pool=isAudio?(lang==='en'?D.english.music:D.music):V.time.concat(V.place,custom.time,custom.place);words[i]=rand(pool.filter(w=>!words.includes(w)));render();saveHistory();return} const source=(mode==='chaos'?D.chaos.concat(simple.subject,simple.place,custom.subject,custom.place):mode==='music'?D.music.concat(simple.time,simple.place,custom.time,custom.place):i===0?D.time.concat(simple.time,D.mood,simple.mood,custom.time,custom.mood):i===1?D.place.concat(simple.place,custom.place):D.subject.concat(simple.subject,custom.subject)).filter(x=>!banned.includes(x)); let next=rand(source); while(words.includes(next)) next=rand(source); words[i]=next; render(); saveHistory();}
   function toggleLock(i){locks[i]=!locks[i];render(false);toast(locks[i]?'LOCKED':'UNLOCKED');}
-  function newQuery(){const old=words; makeQuery(); words=words.map((w,i)=>locks[i]?old[i]:w); render(); saveHistory();}
+  function newQuery(){const old=words; makeQuery(); words=words.map((w,i)=>locks[i]?old[i]:w); if(mode==='music'&&!words.some(w=>D.music.includes(w)||D.english.music.includes(w))) words.push(rand(lang==='en'?D.english.music:D.music)); render(); saveHistory();}
   function currentText(){return words.join(' ')}
   function saveHistory(){history=[currentText(),...history.filter(x=>x!==currentText())].slice(0,40);store.set('history',history)}
   function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),900)}
