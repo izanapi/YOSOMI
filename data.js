@@ -45,4 +45,10 @@ window.YOSOMI_DATA = {
     }
     window.YOSOMI_DATA[key] = short.slice(0, limit);
   }
+  window.YOSOMI_DATA.music = [
+    'ambient','field recording','lo-fi','cassette mix','slowcore',
+    'ジャズ','ロック','ポップ','フォーク','ソウル','ファンク','レゲエ','テクノ','ハウス','ヒップホップ',
+    'クラシック','歌謡曲','民謡','合唱','器楽','独奏','二重奏','ライブ','スタジオ','放送',
+    'カセット','レコード','CD','テープ','モノラル'
+  ];
 })();
